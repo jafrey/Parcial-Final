@@ -1,0 +1,23 @@
+version: '2'
+services:
+    cliente:
+        build:
+            context: ./
+            dockerfile: DockerfileCliente
+        ports:
+            - 8000:8000
+        volumes:
+            - ./Cliente:/app
+        tty: yes
+        container_name: cliente
+
+    api:
+        build:
+            context: ./
+            dockerfile: DockerfileAPI
+        ports:
+            - 8001:8000
+        volumes:
+            - ./API:/app
+        tty: yes
+        container_name: API
