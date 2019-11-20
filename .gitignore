@@ -1,4 +1,5 @@
 *.pyc
 local_settings.py
-__pycache__
+API/proyecto/__pycache__
+Cliente/proyecto/__pycache__
 *38.pyc
