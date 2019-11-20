@@ -16,6 +16,28 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+#importa los routers
+from rest_framework import routers
+
+#importa las views de la app
+from app import views
+
+#view hecha para generar un token al pasarle parametros correctos
+from rest_framework.authtoken.views import obtain_auth_token
+
+from app.views import UserViewSet, CancionViewSet
+
+
+#routers
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet, basename='users')
+router.register(r'canciones', CancionViewSet, basename='users')
+urlpatterns = router.urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(router.urls)),
+    path('gen-tk/', obtain_auth_token, name='api_token_auth'),
+#    path('canciones/', CancionViewSet.as_view(), name="canciones")
+
 ]
