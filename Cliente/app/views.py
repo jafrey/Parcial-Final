@@ -76,3 +76,38 @@ def principal(request):
         return render_to_response('principal.html')
     else:
         pass
+
+
+
+@csrf_exempt
+def altaCancion(request):
+
+    if request.method == "GET":
+
+        return render_to_response('alta.html')
+
+    else:
+
+        nom_cancion = request.POST['nom_cancion']
+        desc_cancion = request.POST['desc_cancion']
+
+
+        try:
+
+            r = requests.post("http://api:8000/canciones/", data={'nom_cancion': nom_cancion, 'desc_cancion': desc_cancion}, headers={'Authorization':'Token ' + request.session['token']})
+
+        except KeyError:
+
+            estado = 'No tenes permiso, te mando a los pacos al toque gil.'
+            return render_to_response('alta.html', { 'estado' : estado })
+
+        else:
+
+            estado = r.status_code
+
+            if estado == 201:
+                estado = 'Cancion creada, sos un crack papaaaaaaaaa.'
+                return render_to_response('alta.html', { 'estado' : estado })
+            elif estado == 400:
+                estado = 'Algo estaba mal, pone bien las cosas boludo.'
+                return render_to_response('alta.html', { 'estado' : estado })
