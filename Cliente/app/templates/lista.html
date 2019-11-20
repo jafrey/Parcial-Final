@@ -6,5 +6,26 @@
   </head>
   <body>
 
+    <h1> Lista de canciones: </h1>
+
+    <table>
+
+        {% for i in items %}
+            <tr><th>{{ i.id }}</th>
+                <th>{{i.nom_cancion}}</th>
+                <th>{{i.desc_cancion}}</th></tr>
+        {% endfor %}
+
+    </table>
+
+    {{ estado }}
+
+        <br>
+        <br>
+
+        <a href="/principal/">Volver</a>
+
+
+
   </body>
 </html>
