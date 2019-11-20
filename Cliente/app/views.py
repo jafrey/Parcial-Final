@@ -186,3 +186,36 @@ def modCancion(request):
             elif estado == 404:
                 estado = 'Cancion a modificar no encontrada.'
                 return render_to_response('mod.html', { 'estado' : estado })
+
+
+@csrf_exempt
+def listaCancion(request):
+
+    if request.method == "POST":
+
+        return render_to_response('lista.html')
+
+    else:
+
+            try:
+
+                r = requests.get("http://api:8000/canciones/", headers={'Authorization':'Token ' + request.session['token']})
+
+            except KeyError:
+
+                estado = 'No tenes permiso, te mando a los pacos al toque gil.'
+                return render_to_response('lista.html', { 'estado' : estado })
+
+            else:
+
+                estado = r.status_code
+
+            if estado == 200:
+
+                jsonData = r.json()
+                return render_to_response('lista.html', { 'items' : jsonData })
+
+
+            else:
+                estado = 'Hubo algún error.'
+                return render_to_response('lista.html', { 'estado' : estado })
