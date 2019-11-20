@@ -27,5 +27,6 @@ urlpatterns = [
     path('logout/', views.logout),
     path('altaCancion/', views.altaCancion),
     path('bajaCancion/', views.bajaCancion),
+    path('modCancion/', views.bajaCancion),
 
 ]
