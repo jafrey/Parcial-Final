@@ -41,3 +41,38 @@ def login(request):
              request.session['token'] = jsonData["token"]
              v = 'De culo salió todo bien.'
              return render_to_response('principal.html', { 'dato' : v })
+
+
+
+
+def logout(request):
+
+    if request.method== 'GET':
+
+        try:
+
+            del request.session['user']
+            del request.session['token']
+
+
+        except KeyError:
+
+            v = 'Logueate antes de intentar hacer algo, gil.'
+            return render_to_response('login.html', { 'dato' : v })
+
+        else:
+
+            v = 'Logout ejecutado satisfactoriamente.'
+            return render_to_response('login.html', { 'dato' : v })
+
+
+
+
+
+
+@csrf_exempt
+def principal(request):
+    if request.method == 'GET':
+        return render_to_response('principal.html')
+    else:
+        pass
