@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+
+DEBUG = True
+
+ALLOWED_HOSTS = ['*']
+
+
+STATIC_URL = '/static/'
+
+# Application definition
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django',
+        'USER': 'django',
+        'PASSWORD': 'django',
+        'HOST' : 'mysql',
+    }
+}
