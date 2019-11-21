@@ -1,5 +1,7 @@
 from django.shortcuts import render, render_to_response
 
+from django.contrib.auth.hashers import make_password
+
 #libreria para que el csrf no rompa los huevos
 from django.views.decorators.csrf import csrf_exempt
 
@@ -17,6 +19,7 @@ def login(request):
      if request.method == "GET":
 
        v = ""
+
        return render_to_response('login.html', { 'dato' : v })
 
      else:
@@ -219,3 +222,36 @@ def listaCancion(request):
             else:
                 estado = 'Hubo algún error.'
                 return render_to_response('lista.html', { 'estado' : estado })
+
+@csrf_exempt
+def altaUsuario(request):
+
+    if request.method == "GET":
+
+        return render_to_response('ualta.html')
+
+    else:
+
+        usuario = request.POST['usuario']
+        contra = request.POST['contraseña']
+        contraHashed = make_password(contra)
+
+        try:
+
+            r = requests.post("http://api:8000/users/", data={'username': usuario, 'password': contraHashed}, headers={'Authorization':'Token ' + request.session['token']})
+
+        except KeyError:
+
+            estado = 'No tenes permiso, te mando a los pacos al toque gil.'
+            return render_to_response('ualta.html', { 'estado' : estado })
+
+        else:
+
+            estado = r.status_code
+
+            if estado == 201:
+                estado = 'Usuario creado, sos un crack papaaaaaaaaa.'
+                return render_to_response('ualta.html', { 'estado' : estado })
+            elif estado == 400:
+                estado = 'Ese usuario ya esta creado zapayo o alguno de los campos esta mal.'
+                return render_to_response('ualta.html', { 'estado' : estado })

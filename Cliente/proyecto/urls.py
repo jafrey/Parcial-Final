@@ -29,6 +29,7 @@ urlpatterns = [
     path('bajaCancion/', views.bajaCancion),
     path('modCancion/', views.modCancion),
     path('listarCancion/', views.listaCancion),
+    path('altaUsuario/', views.altaUsuario),
 
 
 ]
