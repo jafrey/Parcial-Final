@@ -31,6 +31,7 @@ urlpatterns = [
     path('listarCancion/', views.listaCancion),
     path('altaUsuario/', views.altaUsuario),
     path('bajaUsuario/', views.bajaUsuario),
+    path('listarUsuario/', views.listaUsuario),
 
 
 ]

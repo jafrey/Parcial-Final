@@ -290,3 +290,35 @@ def bajaUsuario(request):
             elif estado == 405:
                 estado = 'Pone algo, jeropa.'
                 return render_to_response('ubaja.html', { 'estado' : estado })
+
+@csrf_exempt
+def listaUsuario(request):
+
+    if request.method == "POST":
+
+        return render_to_response('ulista.html')
+
+    else:
+
+            try:
+
+                r = requests.get("http://api:8000/users/", headers={'Authorization':'Token ' + request.session['token']})
+
+            except KeyError:
+
+                estado = 'No tenes permiso, te mando a los pacos al toque gil.'
+                return render_to_response('ulista.html', { 'estado' : estado })
+
+            else:
+
+                estado = r.status_code
+
+            if estado == 200:
+
+                jsonData = r.json()
+                return render_to_response('ulista.html', { 'items' : jsonData })
+
+
+            else:
+                estado = 'Hubo algún error.'
+                return render_to_response('ulista.html', { 'estado' : estado })
