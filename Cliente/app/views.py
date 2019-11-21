@@ -322,3 +322,49 @@ def listaUsuario(request):
             else:
                 estado = 'Hubo algún error.'
                 return render_to_response('ulista.html', { 'estado' : estado })
+
+
+@csrf_exempt
+def modUsuario(request):
+
+    if request.method == "GET":
+
+        return render_to_response('umod.html')
+
+    else:
+
+        id = request.POST['id']
+        usuario = request.POST['username']
+        contra = request.POST['password']
+
+        if id == "" or usuario == "" or contra == "":
+            estado = 'Ningun campo puede estar vacio.'
+            return render_to_response('umod.html', { 'estado' : estado })
+        else:
+
+
+            contraHashed = make_password(contra)
+
+
+            try:
+
+               r = requests.put("http://api:8000/users/" + id + "/", data={'username': usuario, 'password': contraHashed}, headers={'Authorization':'Token ' + request.session['token']})
+
+            except KeyError:
+
+                estado = 'No tenes permiso, te mando a los pacos al toque gil.'
+                return render_to_response('umod.html', { 'estado' : estado })
+
+            else:
+
+               estado = r.status_code
+
+               if estado == 200:
+                    estado = 'Usuario modificado satisfactoriamente.'
+                    return render_to_response('umod.html', { 'estado' : estado })
+               elif estado == 400:
+                    estado = 'Algo estaba mal, pone bien las cosas boludo.'
+                    return render_to_response('umod.html', { 'estado' : estado })
+               elif estado == 404:
+                    estado = 'Usuario a modificar no encontrado.'
+                    return render_to_response('umod.html', { 'estado' : estado })
