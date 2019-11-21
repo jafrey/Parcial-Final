@@ -255,3 +255,38 @@ def altaUsuario(request):
             elif estado == 400:
                 estado = 'Ese usuario ya esta creado zapayo o alguno de los campos esta mal.'
                 return render_to_response('ualta.html', { 'estado' : estado })
+
+
+@csrf_exempt
+def bajaUsuario(request):
+
+    if request.method == "GET":
+
+        return render_to_response('ubaja.html')
+
+    else:
+
+        pk = request.POST['pk']
+
+        try:
+
+            r = requests.delete("http://api:8000/users/" + pk, headers={'Authorization':'Token ' + request.session['token']})
+
+        except KeyError:
+
+            estado = 'No tenes permiso, te mando a los pacos al toque gil.'
+            return render_to_response('ubaja.html', { 'estado' : estado })
+
+        else:
+
+            estado = r.status_code
+
+            if estado == 204:
+                estado = 'Usuario eliminado, que cagada.'
+                return render_to_response('ubaja.html', { 'estado' : estado })
+            elif estado == 404:
+                estado = 'No existe ese usuario.'
+                return render_to_response('ubaja.html', { 'estado' : estado })
+            elif estado == 405:
+                estado = 'Pone algo, jeropa.'
+                return render_to_response('ubaja.html', { 'estado' : estado })

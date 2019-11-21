@@ -30,6 +30,7 @@ urlpatterns = [
     path('modCancion/', views.modCancion),
     path('listarCancion/', views.listaCancion),
     path('altaUsuario/', views.altaUsuario),
+    path('bajaUsuario/', views.bajaUsuario),
 
 
 ]

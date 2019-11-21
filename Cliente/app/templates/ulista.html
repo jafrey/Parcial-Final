@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Lista</title>
+  </head>
+  <body>
+
+<h1> Lista de usuarios: </h1>
+
+<table>
+
+    {% for i in items %}
+        <tr><th>{{ i.id }}</th>
+            <th>{{i.username}}</th>
+            <th>{{i.password}}</th></tr>
+    {% endfor %}
+
+</table>
+
+{{ estado }}
+
+    <br>
+    <br>
+
+    <a href="/principal/">Volver</a>
+
+  </body>
+</html>
