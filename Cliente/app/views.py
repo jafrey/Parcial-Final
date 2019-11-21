@@ -234,27 +234,35 @@ def altaUsuario(request):
 
         usuario = request.POST['usuario']
         contra = request.POST['contraseña']
-        contraHashed = make_password(contra)
 
-        try:
-
-            r = requests.post("http://api:8000/users/", data={'username': usuario, 'password': contraHashed}, headers={'Authorization':'Token ' + request.session['token']})
-
-        except KeyError:
-
-            estado = 'No tenes permiso, te mando a los pacos al toque gil.'
+        if usuario == "" or contra == "":
+            estado = 'Ningun campo puede estar vacio.'
             return render_to_response('ualta.html', { 'estado' : estado })
-
         else:
 
-            estado = r.status_code
+            usuario = request.POST['usuario']
+            contra = request.POST['contraseña']
+            contraHashed = make_password(contra)
 
-            if estado == 201:
-                estado = 'Usuario creado, sos un crack papaaaaaaaaa.'
+            try:
+
+                r = requests.post("http://api:8000/users/", data={'username': usuario, 'password': contraHashed}, headers={'Authorization':'Token ' + request.session['token']})
+
+            except KeyError:
+
+                estado = 'No tenes permiso, te mando a los pacos al toque gil.'
                 return render_to_response('ualta.html', { 'estado' : estado })
-            elif estado == 400:
-                estado = 'Ese usuario ya esta creado zapayo o alguno de los campos esta mal.'
-                return render_to_response('ualta.html', { 'estado' : estado })
+
+            else:
+
+                estado = r.status_code
+
+                if estado == 201:
+                    estado = 'Usuario creado, sos un crack papaaaaaaaaa.'
+                    return render_to_response('ualta.html', { 'estado' : estado })
+                elif estado == 400:
+                    estado = 'Ese usuario ya esta creado zapayo o alguno de los campos esta mal.'
+                    return render_to_response('ualta.html', { 'estado' : estado })
 
 
 @csrf_exempt
